@@ -1,0 +1,357 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-root">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/prochat.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+SC:wght@400;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <slot />
+    <script is:inline>
+      (() => {
+        const defaultLocale = 'zh';
+        const supportedLocales = ['zh', 'zh-Hant', 'en', 'ja'];
+        const storageKey = 'prochat-locale';
+        const countryMap = {
+          CN: 'zh',
+          HK: 'zh-Hant',
+          MO: 'zh-Hant',
+          TW: 'zh-Hant',
+          JP: 'ja',
+          US: 'en',
+        };
+
+        const normalizeLocale = (locale) => supportedLocales.includes(locale) ? locale : 'en';
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        const explicitLocale = supportedLocales.includes(pathParts[0]);
+
+        document.addEventListener('click', (event) => {
+          const link = event.target.closest('[data-locale-link]');
+          if (link) localStorage.setItem(storageKey, link.getAttribute('data-locale-link'));
+        });
+
+        const buildPath = (locale) => {
+          const parts = window.location.pathname.split('/').filter(Boolean);
+          if (supportedLocales.includes(parts[0])) parts.shift();
+          const base = parts.join('/');
+          return locale === defaultLocale ? `/${base}` : `/${locale}/${base}`;
+        };
+
+        const redirectTo = (locale) => {
+          const targetPath = buildPath(locale);
+          const target = `${targetPath}${window.location.search}${window.location.hash}`;
+          const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+          if (target !== current) window.location.replace(target);
+        };
+
+        const localeFromBrowser = () => {
+          const language = (navigator.language || '').toLowerCase();
+          if (language.startsWith('ja')) return 'ja';
+          if (language.includes('hant') || language.includes('tw') || language.includes('hk') || language.includes('mo')) return 'zh-Hant';
+          if (language.startsWith('zh')) return 'zh';
+          return 'en';
+        };
+
+        const detectCountry = async () => {
+          const endpoints = [
+            'https://ipapi.co/json/',
+            'https://get.geojs.io/v1/ip/country.json',
+          ];
+
+          for (const endpoint of endpoints) {
+            try {
+              const response = await fetch(endpoint, { cache: 'no-store' });
+              if (!response.ok) continue;
+              const data = await response.json();
+              const country = (data.country_code || data.country || '').toUpperCase();
+              if (country) return country;
+            } catch {
+              continue;
+            }
+          }
+
+          return '';
+        };
+
+        if (!explicitLocale) {
+          const savedLocale = localStorage.getItem(storageKey);
+          if (savedLocale) {
+            redirectTo(normalizeLocale(savedLocale));
+            return;
+          }
+
+          detectCountry().then((country) => {
+            redirectTo(countryMap[country] || localeFromBrowser());
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-primary: #2563eb;
+    --color-primary-hover: #1d4ed8;
+    --color-secondary: #6b7280;
+    --color-neutral-0: #ffffff;
+    --color-neutral-50: #f8f9fa;
+    --color-neutral-100: #f3f4f6;
+    --color-neutral-200: #e5e7eb;
+    --color-neutral-300: #d1d5db;
+    --color-text-primary: #111827;
+    --color-text-secondary: #6b7280;
+    --color-text-tertiary: #9ca3af;
+    --color-success: #047857;
+    --color-warning: #b45309;
+    --color-error: #b91c1c;
+
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 20px;
+    --text-xl: 24px;
+    --text-2xl: 32px;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-16: 64px;
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --shadow-1: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-2: 0 4px 12px rgba(0,0,0,0.1);
+
+    --layout-wide: 1120px;
+    --layout-content: 896px;
+    --layout-column-min: 256px;
+    --layout-menu: 160px;
+    --layout-header: 64px;
+    --icon-inline: 16px;
+    --icon-standalone: 20px;
+    --border-base: 1px solid var(--color-neutral-200);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .scroll-root {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: Inter, 'Noto Sans SC', 'Noto Sans JP', sans-serif;
+    font-size: var(--text-base);
+    font-weight: 400;
+    line-height: 1.5;
+    background: var(--color-neutral-50);
+    color: var(--color-text-primary);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font: inherit;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-text-primary);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  p {
+    color: var(--color-text-secondary);
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-container {
+    width: 100%;
+    max-width: var(--layout-wide);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  .content-container {
+    width: 100%;
+    max-width: var(--layout-content);
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  .page {
+    padding: calc(var(--layout-header) + var(--space-16)) 0 var(--space-16);
+    background: var(--color-neutral-0);
+  }
+
+  .page-header {
+    margin-bottom: var(--space-16);
+  }
+
+  .eyebrow {
+    color: var(--color-primary);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0;
+    margin-bottom: var(--space-2);
+  }
+
+  .page-title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-subtitle {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: var(--space-12);
+    padding: var(--space-3) var(--space-8);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .button--primary {
+    background: var(--color-primary);
+    color: var(--color-neutral-0);
+  }
+
+  .button--primary:hover,
+  .button--primary:focus-visible {
+    background: var(--color-primary-hover);
+  }
+
+  .button--secondary {
+    background: var(--color-neutral-0);
+    border-color: var(--color-neutral-200);
+    color: var(--color-text-primary);
+  }
+
+  .button--secondary:hover,
+  .button--secondary:focus-visible {
+    border-color: var(--color-neutral-300);
+  }
+
+  .panel {
+    background: var(--color-neutral-0);
+    border-radius: var(--radius-md);
+  }
+
+  .panel--border {
+    border: var(--border-base);
+  }
+
+  .panel--elevated {
+    box-shadow: var(--shadow-2);
+  }
+
+  .icon-inline {
+    width: var(--icon-inline);
+    height: var(--icon-inline);
+    flex: 0 0 var(--icon-inline);
+  }
+
+  .icon-standalone {
+    width: var(--icon-standalone);
+    height: var(--icon-standalone);
+    flex: 0 0 var(--icon-standalone);
+  }
+
+  .icon-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--space-12);
+    height: var(--space-12);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+    background: var(--color-neutral-100);
+  }
+
+  .muted {
+    color: var(--color-text-secondary);
+  }
+
+  .grid-two,
+  .grid-three {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--layout-column-min), 1fr));
+    gap: var(--space-8);
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-8);
+  }
+
+  .section-marker {
+    width: var(--space-1);
+    height: var(--space-6);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    flex: 0 0 var(--space-1);
+  }
+
+  .text-link {
+    color: var(--color-text-secondary);
+  }
+
+  .text-link:hover,
+  .text-link:focus-visible {
+    color: var(--color-primary);
+  }
+</style>

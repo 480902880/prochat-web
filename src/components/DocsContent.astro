@@ -1,0 +1,119 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const privacyItems = [
+  ['docs.zero.title', 'docs.zero.desc'],
+  ['docs.transport.title', 'docs.transport.desc'],
+  ['docs.local.title', 'docs.local.desc'],
+  ['docs.admin.title', 'docs.admin.desc'],
+] as const;
+---
+
+<main class="page">
+  <div class="content-container">
+    <header class="page-header">
+      <p class="eyebrow">{t('docs.eyebrow')}</p>
+      <h1 class="page-title">{t('docs.title')}</h1>
+      <p class="page-subtitle">{t('docs.sub')}</p>
+    </header>
+
+    <div class="docs-flow">
+      <section id="intro">
+        <h2 class="section-title">
+          <span class="section-marker" aria-hidden="true"></span>
+          {t('docs.intro.title')}
+        </h2>
+        <div class="copy-block">
+          <p>{t('docs.intro.body')}</p>
+          <div class="principle panel panel--border">
+            <strong>{t('docs.principle.label')}</strong>
+            <span>{t('docs.principle.body')}</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="privacy">
+        <h2 class="section-title">
+          <span class="section-marker" aria-hidden="true"></span>
+          {t('docs.privacy.title')}
+        </h2>
+        <div class="grid-two">
+          {privacyItems.map(([titleKey, descKey]) => (
+            <article class="doc-card panel panel--border">
+              <h3>{t(titleKey)}</h3>
+              <p>{t(descKey)}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="faq">
+        <h2 class="section-title">
+          <span class="section-marker" aria-hidden="true"></span>
+          {t('docs.faq.title')}
+        </h2>
+        <div class="faq-list">
+          <article class="doc-card panel panel--border">
+            <h3>{t('docs.faq1.q')}</h3>
+            <p>{t('docs.faq1.a')}</p>
+          </article>
+          <article class="doc-card panel panel--border">
+            <h3>{t('docs.faq2.q')}</h3>
+            <p>{t('docs.faq2.a')}</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<style>
+  .docs-flow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .copy-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .copy-block p {
+    font-size: var(--text-base);
+  }
+
+  .principle {
+    padding: var(--space-6);
+    background: var(--color-neutral-50);
+    color: var(--color-text-secondary);
+  }
+
+  .principle strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+
+  .doc-card {
+    padding: var(--space-6);
+  }
+
+  .doc-card h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-3);
+  }
+
+  .doc-card p {
+    font-size: var(--text-sm);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+</style>

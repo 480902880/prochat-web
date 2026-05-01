@@ -1,0 +1,155 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath, getSwitchLanguagePath } from '../i18n/utils';
+import { languages } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<header class="site-header">
+  <div class="site-container header-inner">
+    <a href={translatePath('/')} class="brand" aria-label="ProChat">
+      <img src="/prochat.png" alt="" class="brand-logo" />
+      <span class="brand-name">Pro<span>Chat</span></span>
+    </a>
+
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href={translatePath('/')} class="text-link">{t('nav.home')}</a>
+      <a href={translatePath('/download')} class="text-link">{t('nav.download')}</a>
+      <a href={translatePath('/docs')} class="text-link">{t('nav.docs')}</a>
+    </nav>
+
+    <div class="header-actions">
+      <details class="language-menu">
+        <summary class="language-trigger" aria-label="Select language">
+          <svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 2a14 14 0 0 0 0 20 14 14 0 0 0 0-20" />
+            <path d="M2 12h20" />
+          </svg>
+          <span>{lang}</span>
+          <svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </summary>
+        <div class="language-list">
+          {Object.entries(languages).map(([l, label]) => (
+            <a href={getSwitchLanguagePath(Astro.url, l)} data-locale-link={l} class="language-option">
+              {label}
+            </a>
+          ))}
+        </div>
+      </details>
+      <a href={translatePath('/download')} class="button button--primary header-download">
+        {t('nav.download')}
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: var(--layout-header);
+    background: var(--color-neutral-0);
+    border-bottom: var(--border-base);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    height: var(--layout-header);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .brand-logo {
+    width: var(--space-8);
+    height: var(--space-8);
+    border-radius: var(--radius-sm);
+  }
+
+  .brand-name {
+    color: var(--color-text-primary);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .brand-name span {
+    color: var(--color-primary);
+  }
+
+  .main-nav,
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .language-menu {
+    position: relative;
+  }
+
+  .language-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .language-trigger::-webkit-details-marker {
+    display: none;
+  }
+
+  .language-menu[open] .language-trigger {
+    color: var(--color-primary);
+  }
+
+  .language-list {
+    position: absolute;
+    top: calc(100% + var(--space-3));
+    right: 0;
+    width: var(--layout-menu);
+    padding: var(--space-2);
+    border: var(--border-base);
+    border-radius: var(--radius-md);
+    background: var(--color-neutral-0);
+    box-shadow: var(--shadow-1);
+  }
+
+  .language-option {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .language-option:hover,
+  .language-option:focus-visible {
+    color: var(--color-primary);
+    background: var(--color-neutral-50);
+  }
+
+  .header-download {
+    min-height: var(--space-8);
+    padding: var(--space-2) var(--space-4);
+  }
+</style>

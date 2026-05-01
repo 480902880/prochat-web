@@ -1,0 +1,105 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const features = [
+  {
+    title: t('feat.zero.title'),
+    desc: t('feat.zero.desc'),
+    icon: 'archive',
+  },
+  {
+    title: t('feat.e2ee.title'),
+    desc: t('feat.e2ee.desc'),
+    icon: 'lock',
+  },
+  {
+    title: t('feat.friend.title'),
+    desc: t('feat.friend.desc'),
+    icon: 'users',
+  },
+];
+---
+
+<section id="features" class="features">
+  <div class="site-container">
+    <div class="features-header">
+      <h2>{t('feat.title')}</h2>
+      <span class="features-rule" aria-hidden="true"></span>
+    </div>
+
+    <div class="grid-three">
+      {features.map((feature) => (
+        <article class="feature-card panel panel--border">
+          <div class="icon-box" aria-hidden="true">
+            {feature.icon === 'archive' && (
+              <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 8v13H3V8" />
+                <path d="M1 3h22v5H1z" />
+                <path d="M10 12h4" />
+              </svg>
+            )}
+            {feature.icon === 'lock' && (
+              <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            )}
+            {feature.icon === 'users' && (
+              <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            )}
+          </div>
+          <h3>{feature.title}</h3>
+          <p>{feature.desc}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    padding: var(--space-16) 0;
+    background: var(--color-neutral-0);
+  }
+
+  .features-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-16);
+    text-align: center;
+  }
+
+  .features-header h2 {
+    font-size: var(--text-2xl);
+  }
+
+  .features-rule {
+    width: var(--space-12);
+    height: var(--space-1);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+  }
+
+  .feature-card {
+    padding: var(--space-8);
+  }
+
+  .feature-card h3 {
+    margin: var(--space-6) 0 var(--space-3);
+    font-size: var(--text-lg);
+  }
+
+  .feature-card p {
+    font-size: var(--text-sm);
+  }
+</style>

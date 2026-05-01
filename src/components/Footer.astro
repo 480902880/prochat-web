@@ -1,0 +1,67 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
+---
+
+<footer class="site-footer">
+  <div class="site-container footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">Pro<span>Chat</span></div>
+      <p>© 2026 ProChat · {t('footer.by')}</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href={translatePath('/download')} class="text-link">{t('nav.download')}</a>
+      <a href={translatePath('/docs')} class="text-link">{t('nav.docs')}</a>
+      <a href="mailto:support@prochat.cc" class="text-link">{t('footer.contact')}</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: var(--space-12) 0;
+    border-top: var(--border-base);
+    background: var(--color-neutral-0);
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .footer-logo {
+    color: var(--color-text-primary);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .footer-logo span {
+    color: var(--color-primary);
+  }
+
+  .footer-brand p,
+  .footer-nav {
+    font-size: var(--text-xs);
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: var(--space-8);
+    flex-wrap: wrap;
+    font-weight: 600;
+  }
+</style>
