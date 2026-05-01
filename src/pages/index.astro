@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Features from '../components/Features.astro';
+import MobileHome from '../components/MobileHome.astro';
 import Footer from '../components/Footer.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
@@ -10,11 +11,16 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<Layout title={`ProChat · ${t('hero.title.primary')} ${t('hero.title.accent')}`}>
+<Layout title={t('meta.home.title')} description={t('meta.home.description')} path="/" pageType="home">
   <Header />
-  <main>
-    <Hero />
-    <Features />
+  <main id="content">
+    <div class="desktop-home">
+      <Hero />
+      <Features />
+    </div>
+    <div class="mobile-home">
+      <MobileHome />
+    </div>
   </main>
   <Footer />
 </Layout>

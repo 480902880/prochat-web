@@ -22,14 +22,14 @@ const translatePath = useTranslatedPath(lang);
 
     <div class="header-actions">
       <details class="language-menu">
-        <summary class="language-trigger" aria-label="Select language">
+        <summary class="language-trigger" aria-label={t('nav.language')}>
           <svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="10" />
             <path d="M12 2a14 14 0 0 0 0 20 14 14 0 0 0 0-20" />
             <path d="M2 12h20" />
           </svg>
           <span>{lang}</span>
-          <svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="icon-inline chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="m6 9 6 6 6-6" />
           </svg>
         </summary>
@@ -109,6 +109,7 @@ const translatePath = useTranslatedPath(lang);
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
+    min-height: var(--space-12);
     color: var(--color-text-secondary);
     cursor: pointer;
     list-style: none;
@@ -122,9 +123,13 @@ const translatePath = useTranslatedPath(lang);
     color: var(--color-primary);
   }
 
+  .language-menu[open] .chevron {
+    transform: rotate(180deg);
+  }
+
   .language-list {
     position: absolute;
-    top: calc(100% + var(--space-3));
+    top: calc(100% + var(--space-2));
     right: 0;
     width: var(--layout-menu);
     padding: var(--space-2);
@@ -151,5 +156,25 @@ const translatePath = useTranslatedPath(lang);
   .header-download {
     min-height: var(--space-8);
     padding: var(--space-2) var(--space-4);
+  }
+
+  @media (max-width: 768px) {
+    .main-nav {
+      display: none;
+    }
+
+    .header-actions {
+      gap: var(--space-3);
+    }
+
+    .language-trigger span {
+      display: none;
+    }
+
+    .header-download {
+      width: auto;
+      min-height: var(--space-12);
+      padding: var(--space-2) var(--space-3);
+    }
   }
 </style>

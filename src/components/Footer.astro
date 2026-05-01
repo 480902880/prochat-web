@@ -9,8 +9,8 @@ const translatePath = useTranslatedPath(lang);
 <footer class="site-footer">
   <div class="site-container footer-inner">
     <div class="footer-brand">
-      <div class="footer-logo">Pro<span>Chat</span></div>
-      <p>© 2026 ProChat · {t('footer.by')}</p>
+      <a href={translatePath('/')} class="footer-logo">Pro<span>Chat</span></a>
+      <p>{t('footer.copy')}</p>
     </div>
 
     <nav class="footer-nav" aria-label="Footer navigation">
@@ -63,5 +63,17 @@ const translatePath = useTranslatedPath(lang);
     gap: var(--space-8);
     flex-wrap: wrap;
     font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .footer-nav {
+      gap: var(--space-6);
+    }
   }
 </style>

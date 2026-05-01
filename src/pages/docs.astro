@@ -9,7 +9,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<Layout title={`${t('nav.docs')} - ProChat`}>
+<Layout title={t('meta.docs.title')} description={t('meta.docs.description')} path="/docs" pageType="docs">
   <Header />
   <DocsContent />
   <Footer />
