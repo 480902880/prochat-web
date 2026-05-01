@@ -20,18 +20,18 @@ const platforms = [
   {
     title: t('dl.android.desc'),
     meta: t('dl.android.meta'),
-    action: t('dl.soon'),
+    action: t('dl.btn'),
     href: futureAndroidEndpoint,
     icon: 'phone',
-    active: false,
+    active: true,
   },
   {
     title: t('dl.ios.desc'),
     meta: t('dl.ios.meta'),
-    action: t('dl.soon'),
+    action: t('dl.btn'),
     href: futureIosEndpoint,
     icon: 'tablet',
-    active: false,
+    active: true,
   },
 ] as const;
 ---
@@ -46,7 +46,7 @@ const platforms = [
 
     <section class="platform-grid" aria-label={t('dl.title')}>
       {platforms.map((platform) => (
-        <article class={`platform-card panel ${platform.active ? 'panel--elevated platform-card--active' : 'panel--border'} reveal`}>
+        <article class="platform-card panel panel--elevated platform-card--active reveal">
           <div class="icon-box" aria-hidden="true">
             {platform.icon === 'monitor' && (
               <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -72,11 +72,7 @@ const platforms = [
             <h2>{platform.title}</h2>
             <p>{platform.meta}</p>
           </div>
-          {platform.active ? (
-            <a href={platform.href} class="button button--primary">{platform.action}</a>
-          ) : (
-            <span class="button button--ghost" data-download-endpoint={platform.href}>{platform.action}</span>
-          )}
+          <a href={platform.href} class="button button--primary">{platform.action}</a>
         </article>
       ))}
     </section>

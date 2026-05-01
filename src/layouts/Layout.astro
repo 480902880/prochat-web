@@ -134,9 +134,18 @@ const jsonLd = [
         };
 
         const normalizeLocale = (locale) => supportedLocales.includes(locale) ? locale : 'en';
+        const setDevice = () => {
+          const ua = navigator.userAgent || '';
+          const isMobileUA = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(ua);
+          const isNarrow = window.matchMedia('(max-width: 768px)').matches;
+          document.documentElement.dataset.device = isMobileUA || isNarrow ? 'mobile' : 'desktop';
+        };
         const pathParts = window.location.pathname.split('/').filter(Boolean);
         const explicitLocale = supportedLocales.includes(pathParts[0]);
         const isEntryPage = pathParts.length === 0;
+
+        setDevice();
+        window.addEventListener('resize', setDevice, { passive: true });
 
         document.addEventListener('click', (event) => {
           const target = event.target;
@@ -517,6 +526,22 @@ const jsonLd = [
     animation-delay: 360ms;
   }
 
+  .mobile-home {
+    display: none;
+  }
+
+  html[data-device="mobile"] .desktop-home {
+    display: none;
+  }
+
+  html[data-device="mobile"] .mobile-home {
+    display: block;
+  }
+
+  html[data-device="desktop"] .mobile-home {
+    display: none;
+  }
+
   @keyframes reveal-up {
     from {
       opacity: 0;
@@ -560,6 +585,14 @@ const jsonLd = [
 
     .button {
       width: 100%;
+    }
+
+    .desktop-home {
+      display: none;
+    }
+
+    .mobile-home {
+      display: block;
     }
   }
 
