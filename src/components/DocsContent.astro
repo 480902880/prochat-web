@@ -8,25 +8,31 @@ const privacyItems = [
   ['docs.zero.title', 'docs.zero.desc'],
   ['docs.transport.title', 'docs.transport.desc'],
   ['docs.local.title', 'docs.local.desc'],
-  ['docs.admin.title', 'docs.admin.desc'],
+  ['docs.control.title', 'docs.control.desc'],
+] as const;
+
+const faqItems = [
+  ['docs.faq1.q', 'docs.faq1.a'],
+  ['docs.faq2.q', 'docs.faq2.a'],
+  ['docs.faq3.q', 'docs.faq3.a'],
 ] as const;
 ---
 
-<main class="page">
+<main id="content" class="page docs-page">
   <div class="content-container">
-    <header class="page-header">
+    <header class="page-header reveal">
       <p class="eyebrow">{t('docs.eyebrow')}</p>
       <h1 class="page-title">{t('docs.title')}</h1>
       <p class="page-subtitle">{t('docs.sub')}</p>
     </header>
 
     <div class="docs-flow">
-      <section id="intro" class="panel panel--border docs-intro">
+      <section id="intro" class="docs-intro panel panel--elevated reveal">
         <h2>{t('docs.intro.title')}</h2>
         <p>{t('docs.intro.body')}</p>
       </section>
 
-      <section id="privacy">
+      <section id="privacy" class="reveal">
         <h2 class="section-title">
           <span class="section-marker" aria-hidden="true"></span>
           {t('docs.privacy.title')}
@@ -41,20 +47,18 @@ const privacyItems = [
         </div>
       </section>
 
-      <section id="faq">
+      <section id="faq" class="reveal">
         <h2 class="section-title">
           <span class="section-marker" aria-hidden="true"></span>
           {t('docs.faq.title')}
         </h2>
         <div class="faq-list">
-          <article class="doc-card panel panel--border">
-            <h3>{t('docs.faq1.q')}</h3>
-            <p>{t('docs.faq1.a')}</p>
-          </article>
-          <article class="doc-card panel panel--border">
-            <h3>{t('docs.faq2.q')}</h3>
-            <p>{t('docs.faq2.a')}</p>
-          </article>
+          {faqItems.map(([questionKey, answerKey]) => (
+            <article class="faq-item panel panel--border">
+              <h3>{t(questionKey)}</h3>
+              <p>{t(answerKey)}</p>
+            </article>
+          ))}
         </div>
       </section>
     </div>
@@ -69,8 +73,17 @@ const privacyItems = [
   }
 
   .docs-intro {
+    position: relative;
     padding: var(--space-8);
-    background: var(--color-neutral-50);
+    overflow: hidden;
+  }
+
+  .docs-intro::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-left: var(--space-1) solid var(--color-primary);
+    pointer-events: none;
   }
 
   .docs-intro h2 {
@@ -88,28 +101,35 @@ const privacyItems = [
     gap: var(--space-6);
   }
 
-  .doc-card {
+  .doc-card,
+  .faq-item {
     padding: var(--space-6);
   }
 
-  .doc-card h3 {
+  .doc-card h3,
+  .faq-item h3 {
     font-size: var(--text-base);
     margin-bottom: var(--space-3);
   }
 
-  .doc-card p {
+  .doc-card p,
+  .faq-item p {
     font-size: var(--text-sm);
   }
 
   .faq-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
+    gap: var(--space-4);
   }
 
   @media (max-width: 768px) {
     .privacy-grid {
       grid-template-columns: 1fr;
+    }
+
+    .docs-flow {
+      gap: var(--space-12);
     }
   }
 </style>

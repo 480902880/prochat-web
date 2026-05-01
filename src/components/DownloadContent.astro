@@ -4,40 +4,89 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const downloadUrl = 'https://manhattancafe.online/api/admin/download/latest';
+const windowsDownloadUrl = 'https://manhattancafe.online/api/admin/download/latest';
+const futureAndroidEndpoint = '/api/download/android/latest';
+const futureIosEndpoint = '/api/download/ios/latest';
+
+const platforms = [
+  {
+    title: t('dl.win.desc'),
+    meta: t('dl.win.meta'),
+    action: t('dl.btn'),
+    href: windowsDownloadUrl,
+    icon: 'monitor',
+    active: true,
+  },
+  {
+    title: t('dl.android.desc'),
+    meta: t('dl.android.meta'),
+    action: t('dl.soon'),
+    href: futureAndroidEndpoint,
+    icon: 'phone',
+    active: false,
+  },
+  {
+    title: t('dl.ios.desc'),
+    meta: t('dl.ios.meta'),
+    action: t('dl.soon'),
+    href: futureIosEndpoint,
+    icon: 'tablet',
+    active: false,
+  },
+] as const;
 ---
 
-<main class="page">
+<main id="content" class="page">
   <div class="content-container">
-    <header class="page-header download-header">
+    <header class="page-header centered reveal">
       <p class="eyebrow">{t('dl.eyebrow')}</p>
       <h1 class="page-title">{t('dl.title')}</h1>
       <p class="page-subtitle">{t('dl.sub')}</p>
     </header>
 
-    <section class="download-panel panel panel--elevated" aria-labelledby="download-client">
-      <div class="download-product">
-        <span class="icon-box" aria-hidden="true">
-          <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <path d="M7 10l5 5 5-5" />
-            <path d="M12 15V3" />
-          </svg>
-        </span>
-        <div>
-          <h2 id="download-client">{t('dl.win.desc')}</h2>
-          <p>{t('dl.win.meta')}</p>
-        </div>
-      </div>
-      <a href={downloadUrl} class="button button--primary">{t('dl.btn')}</a>
+    <section class="platform-grid" aria-label={t('dl.title')}>
+      {platforms.map((platform) => (
+        <article class={`platform-card panel ${platform.active ? 'panel--elevated platform-card--active' : 'panel--border'} reveal`}>
+          <div class="icon-box" aria-hidden="true">
+            {platform.icon === 'monitor' && (
+              <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="14" x="2" y="3" rx="2" />
+                <path d="M8 21h8" />
+                <path d="M12 17v4" />
+              </svg>
+            )}
+            {platform.icon === 'phone' && (
+              <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="20" x="5" y="2" rx="2" />
+                <path d="M12 18h.01" />
+              </svg>
+            )}
+            {platform.icon === 'tablet' && (
+              <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="16" height="20" x="4" y="2" rx="2" />
+                <path d="M12 18h.01" />
+              </svg>
+            )}
+          </div>
+          <div>
+            <h2>{platform.title}</h2>
+            <p>{platform.meta}</p>
+          </div>
+          {platform.active ? (
+            <a href={platform.href} class="button button--primary">{platform.action}</a>
+          ) : (
+            <span class="button button--ghost" data-download-endpoint={platform.href}>{platform.action}</span>
+          )}
+        </article>
+      ))}
     </section>
 
     <div class="download-grid">
-      <section class="panel panel--border download-section" aria-labelledby="install-steps">
-        <h3 id="install-steps" class="section-title">
+      <section class="panel panel--border download-section reveal" aria-labelledby="install-steps">
+        <h2 id="install-steps" class="section-title">
           <span class="section-marker" aria-hidden="true"></span>
           {t('dl.steps.title')}
-        </h3>
+        </h2>
         <ol class="step-list">
           <li>
             <span class="step-number">1</span>
@@ -54,56 +103,76 @@ const downloadUrl = 'https://manhattancafe.online/api/admin/download/latest';
         </ol>
       </section>
 
-      <section class="panel panel--border download-section" aria-labelledby="security-notes">
-        <h3 id="security-notes" class="section-title">
-          <span class="section-marker" aria-hidden="true"></span>
-          {t('dl.security.title')}
-        </h3>
-        <p class="security-note">{t('dl.security.note')}</p>
-        <a href="mailto:support@prochat.cc" class="text-link support-link">support@prochat.cc</a>
-      </section>
+      <aside class="download-aside">
+        <section class="panel panel--border download-section reveal" aria-labelledby="security-notes">
+          <h2 id="security-notes" class="section-title">
+            <span class="section-marker" aria-hidden="true"></span>
+            {t('dl.security.title')}
+          </h2>
+          <p class="security-note">{t('dl.security.note')}</p>
+        </section>
+
+        <section class="panel panel--border download-section reveal" aria-labelledby="download-support">
+          <h2 id="download-support" class="section-title">
+            <span class="section-marker" aria-hidden="true"></span>
+            {t('dl.support.title')}
+          </h2>
+          <p class="security-note">{t('dl.support.desc')}</p>
+          <a href="mailto:support@prochat.cc" class="text-link support-link">support@prochat.cc</a>
+        </section>
+      </aside>
     </div>
   </div>
 </main>
 
 <style>
-  .download-header {
-    text-align: center;
-  }
-
-  .download-panel {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-8);
-    padding: var(--space-8);
-    margin-bottom: var(--space-12);
-    background: var(--color-neutral-0);
-    flex-wrap: wrap;
-  }
-
-  .download-product {
-    display: flex;
-    align-items: center;
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-6);
+    margin-bottom: var(--space-12);
   }
 
-  .download-product h2 {
+  .platform-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-6);
+  }
+
+  .platform-card--active {
+    position: relative;
+  }
+
+  .platform-card--active::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-top: var(--space-1) solid var(--color-primary);
+    border-radius: var(--radius-md);
+    pointer-events: none;
+  }
+
+  .platform-card h2 {
     font-size: var(--text-lg);
-    margin-bottom: var(--space-1);
+    margin-bottom: var(--space-2);
   }
 
-  .download-product p {
-    color: var(--color-text-tertiary);
-    font-size: var(--text-xs);
-    font-weight: 600;
+  .platform-card p {
+    font-size: var(--text-sm);
   }
 
   .download-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(var(--layout-column-min), 0.75fr);
+    grid-template-columns: minmax(0, 1fr) minmax(var(--layout-column-min), 0.8fr);
     gap: var(--space-8);
     align-items: start;
+  }
+
+  .download-aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
   }
 
   .download-section {
@@ -158,13 +227,15 @@ const downloadUrl = 'https://manhattancafe.online/api/admin/download/latest';
     font-weight: 600;
   }
 
+  @media (max-width: 1024px) {
+    .platform-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media (max-width: 768px) {
     .download-grid {
       grid-template-columns: 1fr;
-    }
-
-    .download-product {
-      align-items: flex-start;
     }
   }
 </style>
