@@ -40,9 +40,11 @@ const lang = getLangFromUrl(Astro.url);
         const normalizeLocale = (locale) => supportedLocales.includes(locale) ? locale : 'en';
         const pathParts = window.location.pathname.split('/').filter(Boolean);
         const explicitLocale = supportedLocales.includes(pathParts[0]);
+        const isEntryPage = pathParts.length === 0;
 
         document.addEventListener('click', (event) => {
-          const link = event.target.closest('[data-locale-link]');
+          const target = event.target;
+          const link = target instanceof Element ? target.closest('[data-locale-link]') : null;
           if (link) localStorage.setItem(storageKey, link.getAttribute('data-locale-link'));
         });
 
@@ -89,7 +91,8 @@ const lang = getLangFromUrl(Astro.url);
           return '';
         };
 
-        if (!explicitLocale) {
+        if (!explicitLocale && isEntryPage && !sessionStorage.getItem(`${storageKey}-checked`)) {
+          sessionStorage.setItem(`${storageKey}-checked`, '1');
           const savedLocale = localStorage.getItem(storageKey);
           if (savedLocale) {
             redirectTo(normalizeLocale(savedLocale));
