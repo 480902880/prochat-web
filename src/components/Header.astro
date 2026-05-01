@@ -58,6 +58,7 @@ const translatePath = useTranslatedPath(lang);
     height: var(--layout-header);
     background: var(--color-neutral-0);
     border-bottom: var(--border-base);
+    transition: box-shadow var(--motion-base) ease;
   }
 
   .header-inner {
@@ -79,6 +80,12 @@ const translatePath = useTranslatedPath(lang);
     width: var(--space-8);
     height: var(--space-8);
     border-radius: var(--radius-sm);
+    transition: transform var(--motion-base) ease;
+  }
+
+  .brand:hover .brand-logo,
+  .brand:focus-visible .brand-logo {
+    transform: translateY(calc(-1 * var(--space-1)));
   }
 
   .brand-name {
@@ -101,6 +108,31 @@ const translatePath = useTranslatedPath(lang);
     font-weight: 600;
   }
 
+  .main-nav .text-link {
+    position: relative;
+    padding: var(--space-2) 0;
+  }
+
+  .main-nav .text-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--space-1);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    opacity: 0;
+    transform: translateY(var(--space-1));
+    transition: opacity var(--motion-fast) ease, transform var(--motion-fast) ease;
+  }
+
+  .main-nav .text-link:hover::after,
+  .main-nav .text-link:focus-visible::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   .language-menu {
     position: relative;
   }
@@ -113,6 +145,7 @@ const translatePath = useTranslatedPath(lang);
     color: var(--color-text-secondary);
     cursor: pointer;
     list-style: none;
+    transition: color var(--motion-fast) ease;
   }
 
   .language-trigger::-webkit-details-marker {
@@ -127,6 +160,10 @@ const translatePath = useTranslatedPath(lang);
     transform: rotate(180deg);
   }
 
+  .chevron {
+    transition: transform var(--motion-fast) ease;
+  }
+
   .language-list {
     position: absolute;
     top: calc(100% + var(--space-2));
@@ -137,6 +174,7 @@ const translatePath = useTranslatedPath(lang);
     border-radius: var(--radius-md);
     background: var(--color-neutral-0);
     box-shadow: var(--shadow-1);
+    animation: menu-in var(--motion-fast) ease both;
   }
 
   .language-option {
@@ -145,17 +183,30 @@ const translatePath = useTranslatedPath(lang);
     border-radius: var(--radius-sm);
     color: var(--color-text-secondary);
     font-size: var(--text-sm);
+    transition: background-color var(--motion-fast) ease, color var(--motion-fast) ease, transform var(--motion-fast) ease;
   }
 
   .language-option:hover,
   .language-option:focus-visible {
     color: var(--color-primary);
     background: var(--color-neutral-50);
+    transform: translateX(var(--space-1));
   }
 
   .header-download {
     min-height: var(--space-8);
     padding: var(--space-2) var(--space-4);
+  }
+
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(calc(-1 * var(--space-2)));
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (max-width: 768px) {

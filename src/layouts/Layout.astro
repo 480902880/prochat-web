@@ -266,6 +266,10 @@ const jsonLd = [
     --motion-fast: 180ms;
     --motion-base: 280ms;
     --motion-slow: 420ms;
+    --motion-stagger-1: 120ms;
+    --motion-stagger-2: 240ms;
+    --motion-stagger-3: 360ms;
+    --motion-loop: 4200ms;
   }
 
   * {
@@ -448,6 +452,10 @@ const jsonLd = [
     transform: none;
   }
 
+  .button:active {
+    transform: translateY(0);
+  }
+
   .panel {
     background: var(--color-neutral-0);
     border-radius: var(--radius-md);
@@ -515,15 +523,15 @@ const jsonLd = [
   }
 
   .reveal-delay-1 {
-    animation-delay: 120ms;
+    animation-delay: var(--motion-stagger-1);
   }
 
   .reveal-delay-2 {
-    animation-delay: 240ms;
+    animation-delay: var(--motion-stagger-2);
   }
 
   .reveal-delay-3 {
-    animation-delay: 360ms;
+    animation-delay: var(--motion-stagger-3);
   }
 
   .mobile-home {
@@ -560,6 +568,26 @@ const jsonLd = [
     }
     50% {
       border-color: var(--color-primary);
+    }
+  }
+
+  @keyframes quiet-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(calc(-1 * var(--space-1)));
+    }
+  }
+
+  @keyframes quiet-shift {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(var(--space-1));
     }
   }
 

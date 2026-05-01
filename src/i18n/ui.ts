@@ -22,7 +22,7 @@ export const ui = {
     'meta.docs.title': 'ProChat 畅言文档 - 下载、隐私与常见问题',
     'meta.docs.description': '查看 ProChat 畅言的下载说明、隐私设计、聊天记录保存方式和常见问题。',
 
-    'hero.label': 'Windows 隐私聊天客户端',
+    'hero.label': '端到端加密 · 服务端零存储',
     'hero.title.primary': 'ProChat 畅言',
     'hero.title.accent': '把聊天记录留给你自己',
     'hero.desc': 'ProChat 畅言专注一件事：让你在 Windows 上安全、清爽地聊天。支持好友、图片、截图、引用回复、撤回和本地记录管理，没有信息流，也不做无关打扰。',
@@ -39,8 +39,6 @@ export const ui = {
     'mock.msg1': '这个文件我发你了，收到了吗？',
     'mock.msg2': '收到了。图片、截图和文字都在同一个会话里。',
     'mock.msg3': '需要的话可以撤回，也可以导出记录。',
-    'mock.meta.route': '即时送达',
-    'mock.meta.state': '本地保存',
     'mock.input': '输入消息',
 
     'feat.eyebrow': '产品能力',
@@ -81,6 +79,7 @@ export const ui = {
 
     'footer.by': 'by Crystal Alliance Studio',
     'footer.contact': '联系',
+    'footer.copied': '已复制联系邮箱',
     'footer.copy': '© 2026 ProChat · by Crystal Alliance Studio',
 
     'dl.eyebrow': '官方下载',
@@ -88,7 +87,7 @@ export const ui = {
     'dl.sub': '选择你的设备版本，直接下载安装。',
     'dl.btn': '下载',
     'dl.win.desc': 'Windows 客户端',
-    'dl.win.meta': 'Windows 10 / 11 · 最新安装包',
+    'dl.win.meta': 'Windows 10 / 11',
     'dl.android.desc': 'Android 客户端',
     'dl.android.meta': 'Android 设备',
     'dl.ios.desc': 'iOS 客户端',
@@ -108,7 +107,7 @@ export const ui = {
 
     'docs.title': '使用文档',
     'docs.eyebrow': '产品说明',
-    'docs.sub': '这里说明下载、隐私和常见问题，不堆技术细节。',
+    'docs.sub': '',
     'docs.intro.title': 'ProChat 畅言是什么？',
     'docs.intro.body': 'ProChat 畅言是一款 Windows 聊天客户端，适合希望减少社交噪音、自己管理聊天记录、并保持沟通简洁的人使用。',
     'docs.privacy.title': '隐私与数据',
@@ -122,11 +121,9 @@ export const ui = {
     'docs.control.desc': '支持消息撤回、导出和清理，减少无用记录长期堆积。',
     'docs.faq.title': '常见问题',
     'docs.faq1.q': '卸载后聊天记录还在吗？',
-    'docs.faq1.a': '聊天记录保存在本机。卸载或清理数据前，请先备份需要保留的内容。',
+    'docs.faq1.a': '聊天记录保存在本机路径 C:\\Users\\（用户）\\.prochat 中。卸载或清理数据前，请先备份需要保留的内容。',
     'docs.faq2.q': '支持哪些设备？',
-    'docs.faq2.a': '下载页提供 Windows、Android 和 iOS 入口，请选择对应设备版本。',
-    'docs.faq3.q': '为什么官网不写很多技术细节？',
-    'docs.faq3.a': '官网面向普通用户，重点说明能直接使用和理解的功能。更细的实现说明适合放在开发文档或更新日志中。',
+    'docs.faq2.a': 'Windows、Android 和 iOS。',
   },
   'zh-Hant': {
     'nav.home': '首頁',
@@ -142,7 +139,7 @@ export const ui = {
     'meta.docs.title': 'ProChat 暢言文件 - 下載、隱私與常見問題',
     'meta.docs.description': '查看 ProChat 暢言的下載說明、隱私設計、聊天記錄保存方式和常見問題。',
 
-    'hero.label': 'Windows 隱私聊天用戶端',
+    'hero.label': '端到端加密 · 服務端零儲存',
     'hero.title.primary': 'ProChat 暢言',
     'hero.title.accent': '把聊天記錄留給你自己',
     'hero.desc': 'ProChat 暢言專注一件事：讓你在 Windows 上安全、清爽地聊天。支援好友、圖片、截圖、引用回覆、撤回和本機記錄管理，沒有資訊流，也不做無關打擾。',
@@ -159,8 +156,6 @@ export const ui = {
     'mock.msg1': '這個檔案我發你了，收到了嗎？',
     'mock.msg2': '收到了。圖片、截圖和文字都在同一個會話裡。',
     'mock.msg3': '需要的話可以撤回，也可以匯出記錄。',
-    'mock.meta.route': '即時送達',
-    'mock.meta.state': '本機保存',
     'mock.input': '輸入訊息',
 
     'feat.eyebrow': '產品能力',
@@ -201,6 +196,7 @@ export const ui = {
 
     'footer.by': 'by Crystal Alliance Studio',
     'footer.contact': '聯絡',
+    'footer.copied': '已複製聯絡信箱',
     'footer.copy': '© 2026 ProChat · by Crystal Alliance Studio',
 
     'dl.eyebrow': '官方下載',
@@ -208,7 +204,7 @@ export const ui = {
     'dl.sub': '選擇你的裝置版本，直接下載安裝。',
     'dl.btn': '下載',
     'dl.win.desc': 'Windows 用戶端',
-    'dl.win.meta': 'Windows 10 / 11 · 最新安裝包',
+    'dl.win.meta': 'Windows 10 / 11',
     'dl.android.desc': 'Android 用戶端',
     'dl.android.meta': 'Android 裝置',
     'dl.ios.desc': 'iOS 用戶端',
@@ -228,7 +224,7 @@ export const ui = {
 
     'docs.title': '使用文件',
     'docs.eyebrow': '產品說明',
-    'docs.sub': '這裡說明下載、隱私和常見問題，不堆技術細節。',
+    'docs.sub': '',
     'docs.intro.title': 'ProChat 暢言是什麼？',
     'docs.intro.body': 'ProChat 暢言是一款 Windows 聊天用戶端，適合希望減少社交噪音、自己管理聊天記錄、並保持溝通簡潔的人使用。',
     'docs.privacy.title': '隱私與資料',
@@ -242,11 +238,9 @@ export const ui = {
     'docs.control.desc': '支援訊息撤回、匯出和清理，減少無用記錄長期堆積。',
     'docs.faq.title': '常見問題',
     'docs.faq1.q': '移除後聊天記錄還在嗎？',
-    'docs.faq1.a': '聊天記錄保存在本機。移除或清理資料前，請先備份需要保留的內容。',
+    'docs.faq1.a': '聊天記錄保存在本機路徑 C:\\Users\\（使用者）\\.prochat 中。移除或清理資料前，請先備份需要保留的內容。',
     'docs.faq2.q': '支援哪些裝置？',
-    'docs.faq2.a': '下載頁提供 Windows、Android 和 iOS 入口，請選擇對應裝置版本。',
-    'docs.faq3.q': '為什麼官網不寫很多技術細節？',
-    'docs.faq3.a': '官網面向普通使用者，重點說明能直接使用和理解的功能。更細的實作說明適合放在開發文件或更新日誌中。',
+    'docs.faq2.a': 'Windows、Android 和 iOS。',
   },
   en: {
     'nav.home': 'Home',
@@ -262,7 +256,7 @@ export const ui = {
     'meta.docs.title': 'ProChat Docs - Download, Privacy, and FAQ',
     'meta.docs.description': 'Read ProChat download notes, privacy design, local history behavior, and frequently asked questions.',
 
-    'hero.label': 'Private chat client for Windows',
+    'hero.label': 'End-to-end encryption · zero server storage',
     'hero.title.primary': 'ProChat',
     'hero.title.accent': 'Keep chat history on your side',
     'hero.desc': 'ProChat focuses on simple private messaging for Windows. It supports contacts, images, screenshots, quoted replies, message recall, and local history management without feeds or unrelated distractions.',
@@ -279,8 +273,6 @@ export const ui = {
     'mock.msg1': 'I sent the file. Did you get it?',
     'mock.msg2': 'Got it. Images, screenshots, and text stay in one conversation.',
     'mock.msg3': 'You can recall it or export the record when needed.',
-    'mock.meta.route': 'Instant delivery',
-    'mock.meta.state': 'Local history',
     'mock.input': 'Type a message',
 
     'feat.eyebrow': 'Product features',
@@ -321,6 +313,7 @@ export const ui = {
 
     'footer.by': 'by Crystal Alliance Studio',
     'footer.contact': 'Contact',
+    'footer.copied': 'Contact email copied',
     'footer.copy': '© 2026 ProChat · by Crystal Alliance Studio',
 
     'dl.eyebrow': 'Official download',
@@ -328,7 +321,7 @@ export const ui = {
     'dl.sub': 'Choose your device version and download directly.',
     'dl.btn': 'Download',
     'dl.win.desc': 'Windows client',
-    'dl.win.meta': 'Windows 10 / 11 · Latest installer',
+    'dl.win.meta': 'Windows 10 / 11',
     'dl.android.desc': 'Android client',
     'dl.android.meta': 'Android devices',
     'dl.ios.desc': 'iOS client',
@@ -348,7 +341,7 @@ export const ui = {
 
     'docs.title': 'User Docs',
     'docs.eyebrow': 'Product guide',
-    'docs.sub': 'Download, privacy, and FAQ. No unnecessary technical detail.',
+    'docs.sub': '',
     'docs.intro.title': 'What is ProChat?',
     'docs.intro.body': 'ProChat is a Windows chat client for people who want less social noise, local control over chat history, and a simpler way to communicate.',
     'docs.privacy.title': 'Privacy and data',
@@ -362,11 +355,9 @@ export const ui = {
     'docs.control.desc': 'Message recall, export, and cleanup help reduce unnecessary long-term clutter.',
     'docs.faq.title': 'FAQ',
     'docs.faq1.q': 'Does chat history remain after uninstalling?',
-    'docs.faq1.a': 'Chat history is stored locally. Back up anything important before uninstalling or cleaning local data.',
+    'docs.faq1.a': 'Chat history is stored locally at C:\\Users\\(user)\\.prochat. Back up anything important before uninstalling or cleaning local data.',
     'docs.faq2.q': 'Which devices are supported?',
-    'docs.faq2.a': 'The download page provides entries for Windows, Android, and iOS. Choose the version for your device.',
-    'docs.faq3.q': 'Why does the website avoid deep technical details?',
-    'docs.faq3.a': 'The website is for everyday users, so it focuses on features people can understand and use. Implementation notes fit better in developer docs or release notes.',
+    'docs.faq2.a': 'Windows, Android, and iOS.',
   },
   ja: {
     'nav.home': 'ホーム',
@@ -382,7 +373,7 @@ export const ui = {
     'meta.docs.title': 'ProChat ドキュメント - ダウンロード、プライバシー、FAQ',
     'meta.docs.description': 'ProChat のダウンロード、プライバシー設計、ローカル履歴、よくある質問を確認できます。',
 
-    'hero.label': 'Windows 向けプライベートチャット',
+    'hero.label': 'エンドツーエンド暗号化 · サーバー保存ゼロ',
     'hero.title.primary': 'ProChat',
     'hero.title.accent': 'チャット履歴を自分の手元に',
     'hero.desc': 'ProChat は Windows でのシンプルなプライベートチャットに集中したアプリです。連絡先、画像、スクリーンショット、引用返信、取り消し、ローカル履歴管理に対応し、フィードや余計な通知で邪魔しません。',
@@ -399,8 +390,6 @@ export const ui = {
     'mock.msg1': 'ファイルを送りました。届きましたか？',
     'mock.msg2': '届きました。画像、スクリーンショット、テキストを同じ会話で扱えます。',
     'mock.msg3': '必要なら取り消しや履歴のエクスポートもできます。',
-    'mock.meta.route': 'すばやく送信',
-    'mock.meta.state': 'ローカル履歴',
     'mock.input': 'メッセージを入力',
 
     'feat.eyebrow': '製品機能',
@@ -441,6 +430,7 @@ export const ui = {
 
     'footer.by': 'by Crystal Alliance Studio',
     'footer.contact': 'お問い合わせ',
+    'footer.copied': '連絡先メールをコピーしました',
     'footer.copy': '© 2026 ProChat · by Crystal Alliance Studio',
 
     'dl.eyebrow': '公式ダウンロード',
@@ -448,7 +438,7 @@ export const ui = {
     'dl.sub': 'お使いのデバイス版を選んでダウンロードできます。',
     'dl.btn': 'ダウンロード',
     'dl.win.desc': 'Windows クライアント',
-    'dl.win.meta': 'Windows 10 / 11 · 最新インストーラー',
+    'dl.win.meta': 'Windows 10 / 11',
     'dl.android.desc': 'Android クライアント',
     'dl.android.meta': 'Android デバイス',
     'dl.ios.desc': 'iOS クライアント',
@@ -468,7 +458,7 @@ export const ui = {
 
     'docs.title': 'ドキュメント',
     'docs.eyebrow': '製品ガイド',
-    'docs.sub': 'ダウンロード、プライバシー、FAQ を簡潔にまとめています。',
+    'docs.sub': '',
     'docs.intro.title': 'ProChat とは？',
     'docs.intro.body': 'ProChat は Windows 向けのチャットクライアントです。SNS のノイズを減らし、チャット履歴を自分で管理し、シンプルに会話したい人に向いています。',
     'docs.privacy.title': 'プライバシーとデータ',
@@ -482,10 +472,8 @@ export const ui = {
     'docs.control.desc': '取り消し、エクスポート、整理によって不要な履歴の蓄積を減らせます。',
     'docs.faq.title': 'FAQ',
     'docs.faq1.q': 'アンインストール後も履歴は残りますか？',
-    'docs.faq1.a': '履歴はローカルに保存されます。アンインストールやデータ整理の前に、必要な内容をバックアップしてください。',
+    'docs.faq1.a': '履歴は C:\\Users\\(user)\\.prochat に保存されます。アンインストールやデータ整理の前に、必要な内容をバックアップしてください。',
     'docs.faq2.q': 'どのデバイスに対応していますか？',
-    'docs.faq2.a': 'ダウンロードページには Windows、Android、iOS の入口があります。お使いのデバイスに合う版を選んでください。',
-    'docs.faq3.q': 'なぜ技術的な詳細を多く載せないのですか？',
-    'docs.faq3.a': 'このサイトは一般ユーザー向けです。理解しやすく、すぐ使える機能を中心に説明しています。実装の詳細は開発文書やリリースノート向けです。',
+    'docs.faq2.a': 'Windows、Android、iOS。',
   },
 } as const;

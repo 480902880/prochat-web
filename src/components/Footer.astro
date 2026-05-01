@@ -4,6 +4,7 @@ import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/util
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
+const supportEmail = 'support@prochat.cc';
 ---
 
 <footer class="site-footer">
@@ -16,13 +17,61 @@ const translatePath = useTranslatedPath(lang);
     <nav class="footer-nav" aria-label="Footer navigation">
       <a href={translatePath('/download')} class="text-link">{t('nav.download')}</a>
       <a href={translatePath('/docs')} class="text-link">{t('nav.docs')}</a>
-      <a href="mailto:support@prochat.cc" class="text-link">{t('footer.contact')}</a>
+      <button
+        type="button"
+        class="text-link footer-copy-button"
+        data-copy-email={supportEmail}
+        data-copy-message={t('footer.copied')}
+      >
+        {t('footer.contact')}
+      </button>
     </nav>
   </div>
+  <div class="copy-toast" role="status" aria-live="polite" aria-atomic="true"></div>
 </footer>
+
+<script>
+  const copyButton = document.querySelector('[data-copy-email]');
+  const toast = document.querySelector('.copy-toast');
+
+  const showToast = (message) => {
+    if (!(toast instanceof HTMLElement)) return;
+    toast.textContent = message;
+    toast.classList.add('copy-toast--visible');
+    window.clearTimeout(Number(toast.dataset.timer || 0));
+    const timer = window.setTimeout(() => {
+      toast.classList.remove('copy-toast--visible');
+    }, 2200);
+    toast.dataset.timer = String(timer);
+  };
+
+  copyButton?.addEventListener('click', async () => {
+    if (!(copyButton instanceof HTMLElement)) return;
+    const email = copyButton.dataset.copyEmail || '';
+    const message = copyButton.dataset.copyMessage || '';
+
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      const selection = window.getSelection();
+      const helper = document.createElement('textarea');
+      helper.value = email;
+      helper.setAttribute('readonly', '');
+      helper.className = 'copy-helper';
+      document.body.appendChild(helper);
+      helper.select();
+      document.execCommand('copy');
+      helper.remove();
+      selection?.removeAllRanges();
+    }
+
+    showToast(message);
+  });
+</script>
 
 <style>
   .site-footer {
+    --toast-duration: 2200ms;
     padding: var(--space-12) 0;
     border-top: var(--border-base);
     background: var(--color-neutral-0);
@@ -65,6 +114,76 @@ const translatePath = useTranslatedPath(lang);
     font-weight: 600;
   }
 
+  .footer-copy-button {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .copy-toast {
+    position: fixed;
+    right: var(--space-6);
+    bottom: var(--space-6);
+    z-index: 20;
+    min-width: calc(var(--space-16) * 3);
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-base);
+    border-radius: var(--radius-md);
+    background: var(--color-neutral-0);
+    color: var(--color-text-primary);
+    box-shadow: var(--shadow-2);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(var(--space-4));
+    transition: opacity var(--motion-base) ease, transform var(--motion-base) ease;
+    overflow: hidden;
+  }
+
+  .copy-toast::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: var(--space-1);
+    width: 100%;
+    background: var(--color-primary);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  .copy-toast--visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .copy-toast--visible::after {
+    animation: toast-progress var(--toast-duration) linear both;
+  }
+
+  :global(.copy-helper) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--space-1);
+    height: var(--space-1);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @keyframes toast-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
   @media (max-width: 768px) {
     .footer-inner {
       align-items: flex-start;
@@ -74,6 +193,14 @@ const translatePath = useTranslatedPath(lang);
 
     .footer-nav {
       gap: var(--space-6);
+    }
+
+    .copy-toast {
+      right: var(--space-4);
+      bottom: var(--space-4);
+      left: var(--space-4);
+      width: auto;
+      min-width: 0;
     }
   }
 </style>

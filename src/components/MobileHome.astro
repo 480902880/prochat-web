@@ -12,7 +12,7 @@ const mobileFeatures = [
 ] as const;
 ---
 
-<section class="mobile-landing" aria-labelledby="mobile-hero-title">
+<section class="mobile-landing reveal" aria-labelledby="mobile-hero-title">
   <div class="mobile-shell">
     <p class="mobile-label">{t('hero.label')}</p>
     <h1 id="mobile-hero-title">
@@ -22,7 +22,7 @@ const mobileFeatures = [
     <p class="mobile-desc">{t('hero.desc')}</p>
     <a href={translatePath('/download')} class="button button--primary">{t('hero.cta')}</a>
 
-    <div class="mobile-chat panel panel--elevated" aria-label={t('hero.preview.label')}>
+    <div class="mobile-chat panel panel--elevated reveal reveal-delay-1" aria-label={t('hero.preview.label')}>
       <div class="mobile-chat-header">
         <div class="mobile-avatar">C</div>
         <div>
@@ -37,7 +37,7 @@ const mobileFeatures = [
   </div>
 </section>
 
-<section id="mobile-features" class="mobile-features">
+<section id="mobile-features" class="mobile-features reveal reveal-delay-2">
   <div class="mobile-shell">
     <p class="eyebrow">{t('feat.eyebrow')}</p>
     <h2>{t('feat.title')}</h2>
@@ -81,6 +81,7 @@ const mobileFeatures = [
     font-size: var(--text-xs);
     font-weight: 600;
     margin-bottom: var(--space-4);
+    animation: pulse-border var(--motion-loop) ease-in-out infinite;
   }
 
   .mobile-landing h1 {
@@ -105,6 +106,7 @@ const mobileFeatures = [
     padding: var(--space-6);
     margin-top: var(--space-8);
     overflow: hidden;
+    animation: quiet-float var(--motion-loop) ease-in-out infinite;
   }
 
   .mobile-chat::before {
@@ -134,6 +136,7 @@ const mobileFeatures = [
     background: var(--color-neutral-100);
     color: var(--color-primary);
     font-weight: 600;
+    animation: mobile-avatar var(--motion-loop) ease-in-out infinite;
   }
 
   .mobile-chat-header strong {
@@ -142,9 +145,20 @@ const mobileFeatures = [
   }
 
   .mobile-chat-header span {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     color: var(--color-text-secondary);
     font-size: var(--text-xs);
+  }
+
+  .mobile-chat-header span::before {
+    content: "";
+    width: var(--space-2);
+    height: var(--space-2);
+    border-radius: var(--radius-sm);
+    background: var(--color-success);
+    animation: status-pulse var(--motion-loop) ease-in-out infinite;
   }
 
   .mobile-bubble {
@@ -153,6 +167,7 @@ const mobileFeatures = [
     border-radius: var(--radius-md);
     font-size: var(--text-sm);
     margin-bottom: var(--space-3);
+    animation: message-in var(--motion-slow) ease both;
   }
 
   .mobile-bubble--in {
@@ -164,6 +179,7 @@ const mobileFeatures = [
     margin-left: auto;
     background: var(--color-primary);
     color: var(--color-neutral-0);
+    animation-delay: var(--motion-stagger-1);
   }
 
   .mobile-input {
@@ -172,6 +188,7 @@ const mobileFeatures = [
     border-radius: var(--radius-md);
     color: var(--color-text-secondary);
     font-size: var(--text-sm);
+    animation: pulse-border var(--motion-loop) ease-in-out infinite;
   }
 
   .mobile-features h2 {
@@ -186,7 +203,35 @@ const mobileFeatures = [
   }
 
   .mobile-feature-card {
+    position: relative;
     padding: var(--space-6);
+    overflow: hidden;
+    transition: transform var(--motion-base) ease, border-color var(--motion-base) ease, background-color var(--motion-base) ease;
+  }
+
+  .mobile-feature-card::before {
+    content: "";
+    position: absolute;
+    top: var(--space-6);
+    bottom: var(--space-6);
+    left: 0;
+    width: var(--space-1);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    opacity: 0;
+    transition: opacity var(--motion-base) ease;
+  }
+
+  .mobile-feature-card:hover,
+  .mobile-feature-card:focus-within {
+    transform: translateY(calc(-1 * var(--space-1)));
+    border-color: var(--color-neutral-300);
+    background: var(--color-neutral-50);
+  }
+
+  .mobile-feature-card:hover::before,
+  .mobile-feature-card:focus-within::before {
+    opacity: 1;
   }
 
   .mobile-feature-card h3 {
@@ -196,5 +241,15 @@ const mobileFeatures = [
 
   .mobile-feature-card p {
     font-size: var(--text-sm);
+  }
+
+  @keyframes mobile-avatar {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
+    }
   }
 </style>

@@ -62,11 +62,6 @@ const proofItems = [
           <p class="bubble bubble--in bubble--last">{t('mock.msg3')}</p>
         </div>
 
-        <div class="chat-meta">
-          <span>{t('mock.meta.route')}</span>
-          <span>{t('mock.meta.state')}</span>
-        </div>
-
         <div class="chat-input">
           <span>{t('mock.input')}</span>
           <svg class="icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -112,6 +107,7 @@ const proofItems = [
     color: var(--color-primary);
     font-size: var(--text-xs);
     font-weight: 600;
+    animation: pulse-border var(--motion-loop) ease-in-out infinite;
   }
 
   .hero-title {
@@ -154,6 +150,13 @@ const proofItems = [
     color: var(--color-text-secondary);
     font-size: var(--text-xs);
     font-weight: 600;
+    transition: border-color var(--motion-fast) ease, color var(--motion-fast) ease, transform var(--motion-fast) ease;
+  }
+
+  .proof-strip span:hover {
+    border-color: var(--color-primary);
+    color: var(--color-text-primary);
+    transform: translateY(calc(-1 * var(--space-1)));
   }
 
   .proof-strip svg {
@@ -162,6 +165,7 @@ const proofItems = [
 
   .chat-stage {
     position: relative;
+    animation: quiet-float var(--motion-loop) ease-in-out infinite;
   }
 
   .chat-stage::before,
@@ -176,10 +180,12 @@ const proofItems = [
 
   .chat-stage::before {
     inset: var(--space-8) calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-8);
+    animation: quiet-shift var(--motion-loop) ease-in-out infinite;
   }
 
   .chat-stage::after {
     inset: calc(-1 * var(--space-4)) var(--space-8) var(--space-8) calc(-1 * var(--space-4));
+    animation: quiet-float var(--motion-loop) ease-in-out infinite;
   }
 
   .chat-shell {
@@ -187,6 +193,11 @@ const proofItems = [
     z-index: 1;
     padding: var(--space-6);
     overflow: hidden;
+    transition: transform var(--motion-base) ease;
+  }
+
+  .chat-shell:hover {
+    transform: translateY(calc(-1 * var(--space-1)));
   }
 
   .chat-shell::before {
@@ -224,6 +235,7 @@ const proofItems = [
     background: var(--color-neutral-100);
     color: var(--color-primary);
     font-weight: 600;
+    animation: avatar-soft-pop var(--motion-loop) ease-in-out infinite;
   }
 
   .chat-name {
@@ -250,6 +262,7 @@ const proofItems = [
 
   .chat-lock {
     color: var(--color-primary);
+    animation: lock-breathe var(--motion-loop) ease-in-out infinite;
   }
 
   .chat-messages {
@@ -283,14 +296,6 @@ const proofItems = [
     animation-delay: 320ms;
   }
 
-  .chat-meta {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
-    margin-top: var(--space-6);
-  }
-
-  .chat-meta span,
   .chat-input {
     border: var(--border-base);
     border-radius: var(--radius-md);
@@ -300,10 +305,6 @@ const proofItems = [
     font-weight: 600;
   }
 
-  .chat-meta span {
-    padding: var(--space-3);
-  }
-
   .chat-input {
     display: flex;
     align-items: center;
@@ -311,8 +312,8 @@ const proofItems = [
     gap: var(--space-3);
     min-height: var(--space-12);
     padding: var(--space-3) var(--space-4);
-    margin-top: var(--space-4);
-    animation: pulse-border 2800ms ease-in-out infinite;
+    margin-top: var(--space-6);
+    animation: pulse-border var(--motion-loop) ease-in-out infinite;
   }
 
   .chat-input svg {
@@ -339,6 +340,28 @@ const proofItems = [
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes lock-breathe {
+    0%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 0.68;
+      transform: translateY(calc(-1 * var(--space-1)));
+    }
+  }
+
+  @keyframes avatar-soft-pop {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
     }
   }
 

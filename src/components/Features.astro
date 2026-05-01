@@ -164,18 +164,45 @@ const trustPoints = [
   }
 
   .feature-card {
+    position: relative;
     padding: var(--space-6);
     min-height: 100%;
-    transition: transform var(--motion-base) ease, border-color var(--motion-base) ease;
+    overflow: hidden;
+    transition: transform var(--motion-base) ease, border-color var(--motion-base) ease, background-color var(--motion-base) ease;
+  }
+
+  .feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: var(--space-6);
+    right: var(--space-6);
+    height: var(--space-1);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-1)));
+    transition: opacity var(--motion-base) ease, transform var(--motion-base) ease;
   }
 
   .feature-card:hover {
     transform: translateY(calc(-1 * var(--space-1)));
     border-color: var(--color-neutral-300);
+    background: var(--color-neutral-50);
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .feature-icon {
     margin-bottom: var(--space-6);
+    transition: transform var(--motion-base) ease, color var(--motion-base) ease;
+  }
+
+  .feature-card:hover .feature-icon {
+    transform: translateY(calc(-1 * var(--space-1)));
   }
 
   .feature-card h3,
@@ -214,11 +241,19 @@ const trustPoints = [
   }
 
   .flow-step {
+    position: relative;
     display: grid;
     grid-template-columns: var(--space-12) minmax(0, 1fr);
     column-gap: var(--space-6);
     row-gap: var(--space-2);
     padding: var(--space-6);
+    transition: transform var(--motion-base) ease, border-color var(--motion-base) ease, background-color var(--motion-base) ease;
+  }
+
+  .flow-step:hover {
+    transform: translateX(var(--space-1));
+    border-color: var(--color-neutral-300);
+    background: var(--color-neutral-0);
   }
 
   .flow-step span {
@@ -227,6 +262,11 @@ const trustPoints = [
     font-size: var(--text-lg);
     font-weight: 600;
     line-height: 1.25;
+    transition: transform var(--motion-base) ease;
+  }
+
+  .flow-step:hover span {
+    transform: translateY(calc(-1 * var(--space-1)));
   }
 
   .trust-card {
@@ -249,6 +289,13 @@ const trustPoints = [
     border-radius: var(--radius-md);
     background: var(--color-neutral-0);
     color: var(--color-text-secondary);
+    transition: transform var(--motion-base) ease, border-color var(--motion-base) ease, background-color var(--motion-base) ease;
+  }
+
+  .trust-list li:hover {
+    transform: translateY(calc(-1 * var(--space-1)));
+    border-color: var(--color-neutral-300);
+    background: var(--color-neutral-50);
   }
 
   .trust-list svg {
