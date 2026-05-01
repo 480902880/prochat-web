@@ -10,6 +10,12 @@ const privacyItems = [
   ['docs.local.title', 'docs.local.desc'],
   ['docs.admin.title', 'docs.admin.desc'],
 ] as const;
+
+const anchors = [
+  ['#intro', t('docs.intro.title')],
+  ['#privacy', t('docs.privacy.title')],
+  ['#faq', t('docs.faq.title')],
+] as const;
 ---
 
 <main class="page">
@@ -20,61 +26,104 @@ const privacyItems = [
       <p class="page-subtitle">{t('docs.sub')}</p>
     </header>
 
-    <div class="docs-flow">
-      <section id="intro">
-        <h2 class="section-title">
-          <span class="section-marker" aria-hidden="true"></span>
-          {t('docs.intro.title')}
-        </h2>
-        <div class="copy-block">
-          <p>{t('docs.intro.body')}</p>
-          <div class="principle panel panel--border">
-            <strong>{t('docs.principle.label')}</strong>
-            <span>{t('docs.principle.body')}</span>
+    <div class="docs-layout">
+      <aside class="docs-nav panel panel--border" aria-label={t('docs.nav.label')}>
+        {anchors.map(([href, label]) => (
+          <a href={href} class="docs-nav-link">{label}</a>
+        ))}
+      </aside>
+
+      <div class="docs-flow">
+        <section id="intro" class="docs-section">
+          <h2 class="section-title">
+            <span class="section-marker" aria-hidden="true"></span>
+            {t('docs.intro.title')}
+          </h2>
+          <div class="copy-block">
+            <p>{t('docs.intro.body')}</p>
+            <div class="principle panel panel--border">
+              <strong>{t('docs.principle.label')}</strong>
+              <span>{t('docs.principle.body')}</span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="privacy">
-        <h2 class="section-title">
-          <span class="section-marker" aria-hidden="true"></span>
-          {t('docs.privacy.title')}
-        </h2>
-        <div class="grid-two">
-          {privacyItems.map(([titleKey, descKey]) => (
+        <section id="privacy" class="docs-section">
+          <h2 class="section-title">
+            <span class="section-marker" aria-hidden="true"></span>
+            {t('docs.privacy.title')}
+          </h2>
+          <div class="privacy-grid">
+            {privacyItems.map(([titleKey, descKey]) => (
+              <article class="doc-card panel panel--border">
+                <span class="doc-card-mark" aria-hidden="true"></span>
+                <h3>{t(titleKey)}</h3>
+                <p>{t(descKey)}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="faq" class="docs-section">
+          <h2 class="section-title">
+            <span class="section-marker" aria-hidden="true"></span>
+            {t('docs.faq.title')}
+          </h2>
+          <div class="faq-list">
             <article class="doc-card panel panel--border">
-              <h3>{t(titleKey)}</h3>
-              <p>{t(descKey)}</p>
+              <h3>{t('docs.faq1.q')}</h3>
+              <p>{t('docs.faq1.a')}</p>
             </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="faq">
-        <h2 class="section-title">
-          <span class="section-marker" aria-hidden="true"></span>
-          {t('docs.faq.title')}
-        </h2>
-        <div class="faq-list">
-          <article class="doc-card panel panel--border">
-            <h3>{t('docs.faq1.q')}</h3>
-            <p>{t('docs.faq1.a')}</p>
-          </article>
-          <article class="doc-card panel panel--border">
-            <h3>{t('docs.faq2.q')}</h3>
-            <p>{t('docs.faq2.a')}</p>
-          </article>
-        </div>
-      </section>
+            <article class="doc-card panel panel--border">
+              <h3>{t('docs.faq2.q')}</h3>
+              <p>{t('docs.faq2.a')}</p>
+            </article>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 </main>
 
 <style>
+  .docs-layout {
+    display: grid;
+    grid-template-columns: var(--layout-column-min) minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .docs-nav {
+    position: sticky;
+    top: calc(var(--layout-header) + var(--space-8));
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    background: var(--color-neutral-50);
+  }
+
+  .docs-nav-link {
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .docs-nav-link:hover,
+  .docs-nav-link:focus-visible {
+    color: var(--color-primary);
+    background: var(--color-neutral-0);
+  }
+
   .docs-flow {
     display: flex;
     flex-direction: column;
     gap: var(--space-16);
+  }
+
+  .docs-section {
+    scroll-margin-top: calc(var(--layout-header) + var(--space-8));
   }
 
   .copy-block {
@@ -98,8 +147,25 @@ const privacyItems = [
     font-weight: 600;
   }
 
+  .privacy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+
   .doc-card {
+    position: relative;
     padding: var(--space-6);
+    overflow: hidden;
+  }
+
+  .doc-card-mark {
+    display: block;
+    width: var(--space-8);
+    height: var(--space-1);
+    border-radius: var(--radius-sm);
+    background: var(--color-primary);
+    margin-bottom: var(--space-4);
   }
 
   .doc-card h3 {
@@ -115,5 +181,16 @@ const privacyItems = [
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
+  }
+
+  @media (max-width: 768px) {
+    .docs-layout,
+    .privacy-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .docs-nav {
+      position: static;
+    }
   }
 </style>
