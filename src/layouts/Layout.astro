@@ -35,6 +35,13 @@ const canonicalPath = Astro.props.path ?? Astro.url.pathname;
 const cleanPath = canonicalPath.replace(/^\/(zh-Hant|en|ja)(?=\/|$)/, '') || '/';
 const canonicalUrl = new URL(canonicalPath, siteUrl).toString();
 const imageUrl = new URL('/prochat.png', siteUrl).toString();
+const hreflangMap = {
+  zh: 'zh-Hans',
+  'zh-Hant': 'zh-Hant',
+  en: 'en',
+  ja: 'ja',
+} as const;
+const htmlLang = hreflangMap[lang] ?? lang;
 
 const localizedPath = (targetLang: string) => {
   if (targetLang === defaultLang) return cleanPath;
@@ -43,6 +50,7 @@ const localizedPath = (targetLang: string) => {
 
 const alternates = localeCodes.map((locale) => ({
   locale,
+  hreflang: hreflangMap[locale] ?? locale,
   href: new URL(localizedPath(locale), siteUrl).toString(),
 }));
 
@@ -60,7 +68,7 @@ const jsonLd = [
     '@type': 'WebSite',
     name: siteName,
     url: siteUrl,
-    inLanguage: lang,
+    inLanguage: htmlLang,
   },
   {
     '@context': 'https://schema.org',
@@ -86,7 +94,7 @@ const jsonLd = [
 ---
 
 <!doctype html>
-<html lang={lang} class="scroll-root">
+<html lang={htmlLang} class="scroll-root">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -98,7 +106,7 @@ const jsonLd = [
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonicalUrl} />
     {alternates.map((item) => (
-      <link rel="alternate" hreflang={item.locale} href={item.href} />
+      <link rel="alternate" hreflang={item.hreflang} href={item.href} />
     ))}
     <link rel="alternate" hreflang="x-default" href={new URL(cleanPath, siteUrl).toString()} />
     <meta property="og:type" content="website" />
