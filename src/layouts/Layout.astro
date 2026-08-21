@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations, localeCodes } from '../i18n/utils';
 import { defaultLang } from '../i18n/ui';
+import { windowsDownloadUrl } from '../config/endpoints';
 
 interface Props {
   title?: string;
@@ -77,7 +78,7 @@ const jsonLd = [
     applicationCategory: 'CommunicationApplication',
     operatingSystem: 'Windows',
     url: siteUrl,
-    downloadUrl: 'https://manhattancafe.online/api/admin/download/latest',
+    downloadUrl: windowsDownloadUrl,
     image: imageUrl,
     description,
     offers: {

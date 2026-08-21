@@ -1,10 +1,11 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { windowsDownloadUrl } from '../config/endpoints';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const windowsDownloadUrl = 'https://manhattancafe.online/api/admin/download/latest';
+
 const futureAndroidEndpoint = '/api/download/android/latest';
 const futureIosEndpoint = '/api/download/ios/latest';
 
