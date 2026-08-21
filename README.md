@@ -5,7 +5,7 @@ ProChat 官网是一个基于 Astro 的静态网站，用于展示 ProChat 桌�
 ## 项目信息
 
 - 官网地址：`https://prochat.cc/`
-- 下载接口：`https://fantasy480.dpdns.org/api/admin/download/latest`
+- 下载接口：
 - 联系邮箱：`support@prochat.cc`
 - 版权文案：`© 2026 ProChat · by Crystal Alliance Studio`
 - 主要技术：Astro 静态站点
