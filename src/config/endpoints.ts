@@ -15,3 +15,4 @@ const normalizeApiOrigin = (value?: string) => {
 export const apiOrigin = normalizeApiOrigin(import.meta.env.PUBLIC_PROCHAT_API_ORIGIN);
 export const windowsDownloadUrl = `${apiOrigin}/api/admin/download/latest`;
 export const androidDownloadUrl = `${apiOrigin}/api/download/android/latest`;
+export const websiteAnnouncementUrl = `${apiOrigin}/api/public/website/announcement`;

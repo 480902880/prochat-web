@@ -1,0 +1,185 @@
+---
+import { websiteAnnouncementUrl } from '../config/endpoints';
+
+interface Props {
+  lang: 'zh' | 'zh-Hant' | 'en' | 'ja';
+}
+
+const { lang } = Astro.props;
+const defaultTitles = {
+  zh: '网站公告',
+  'zh-Hant': '網站公告',
+  en: 'Announcement',
+  ja: 'お知らせ',
+};
+---
+
+<section
+  class="announcement-shell"
+  data-website-announcement
+  data-endpoint={websiteAnnouncementUrl}
+  data-language={lang}
+  data-default-title={defaultTitles[lang]}
+  aria-labelledby="website-announcement-title"
+  hidden
+>
+  <div class="site-container">
+    <div class="announcement-card" role="status" aria-live="polite">
+      <div class="announcement-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 11v2" />
+          <path d="M6 9v6" />
+          <path d="m10 7 8-3v16l-8-3Z" />
+          <path d="M6 15l1.5 5h3L9 16" />
+        </svg>
+      </div>
+      <div class="announcement-copy">
+        <h2 id="website-announcement-title" data-announcement-title></h2>
+        <p data-announcement-content></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  type Announcement = Record<string, unknown> & { enabled?: boolean };
+
+  const roots = document.querySelectorAll<HTMLElement>('[data-website-announcement]');
+  const fieldOrder: Record<string, string[]> = {
+    zh: ['zh', 'zhHant', 'en', 'ja'],
+    'zh-Hant': ['zhHant', 'zh', 'en', 'ja'],
+    en: ['en', 'zh', 'zhHant', 'ja'],
+    ja: ['ja', 'zh', 'zhHant', 'en'],
+  };
+
+  const readText = (data: Announcement, fields: string[], suffix: 'Title' | 'Content') => {
+    for (const field of fields) {
+      const value = data[`${field}${suffix}`];
+      if (typeof value === 'string' && value.trim()) return value.trim();
+    }
+    return '';
+  };
+
+  roots.forEach(async (root) => {
+    const endpoint = root.dataset.endpoint;
+    const language = root.dataset.language || 'zh';
+    if (!endpoint) return;
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 6000);
+
+    try {
+      const response = await fetch(endpoint, {
+        cache: 'no-store',
+        headers: { Accept: 'application/json' },
+        signal: controller.signal,
+      });
+      if (!response.ok) return;
+
+      const data = (await response.json()) as Announcement;
+      if (data.enabled !== true) return;
+
+      const order = fieldOrder[language] || fieldOrder.zh;
+      const content = readText(data, order, 'Content');
+      if (!content) return;
+
+      const title = readText(data, order, 'Title') || root.dataset.defaultTitle || 'Announcement';
+      const titleNode = root.querySelector<HTMLElement>('[data-announcement-title]');
+      const contentNode = root.querySelector<HTMLElement>('[data-announcement-content]');
+      if (!titleNode || !contentNode) return;
+
+      titleNode.textContent = title;
+      contentNode.textContent = content;
+      root.hidden = false;
+    } catch {
+      root.hidden = true;
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  });
+</script>
+
+<style>
+  .announcement-shell {
+    padding: calc(var(--layout-header) + var(--space-4)) 0 0;
+    background: var(--color-neutral-50);
+  }
+
+  .announcement-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--space-12) minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: start;
+    padding: var(--space-4) var(--space-6);
+    overflow: hidden;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius-md);
+    background: linear-gradient(115deg, #eff6ff 0%, var(--color-neutral-0) 64%);
+    box-shadow: var(--shadow-1);
+    animation: reveal-up var(--motion-slow) ease both;
+  }
+
+  .announcement-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--space-1);
+    background: var(--color-primary);
+  }
+
+  .announcement-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--space-12);
+    height: var(--space-12);
+    border-radius: var(--radius-md);
+    color: var(--color-primary);
+    background: var(--color-neutral-0);
+    border: var(--border-base);
+  }
+
+  .announcement-icon svg {
+    width: var(--icon-standalone);
+    height: var(--icon-standalone);
+  }
+
+  .announcement-copy {
+    min-width: 0;
+  }
+
+  .announcement-copy h2 {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-base);
+  }
+
+  .announcement-copy p {
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+    font-size: var(--text-sm);
+  }
+
+  .announcement-shell:not([hidden]) ~ .desktop-home :global(.hero),
+  .announcement-shell:not([hidden]) ~ .mobile-home :global(.mobile-landing) {
+    min-height: auto;
+    padding-top: var(--space-12);
+  }
+
+  @media (max-width: 768px) {
+    .announcement-shell {
+      padding-top: calc(var(--layout-header) + var(--space-3));
+    }
+
+    .announcement-card {
+      grid-template-columns: var(--space-8) minmax(0, 1fr);
+      gap: var(--space-3);
+      padding: var(--space-4);
+    }
+
+    .announcement-icon {
+      width: var(--space-8);
+      height: var(--space-8);
+    }
+  }
+</style>
