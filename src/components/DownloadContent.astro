@@ -1,14 +1,9 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { windowsDownloadUrl } from '../config/endpoints';
+import { androidDownloadUrl, windowsDownloadUrl } from '../config/endpoints';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-
-const futureAndroidEndpoint = '/api/download/android/latest';
-const futureIosEndpoint = '/api/download/ios/latest';
-
 const platforms = [
   {
     title: t('dl.win.desc'),
@@ -22,17 +17,17 @@ const platforms = [
     title: t('dl.android.desc'),
     meta: t('dl.android.meta'),
     action: t('dl.btn'),
-    href: futureAndroidEndpoint,
+    href: androidDownloadUrl,
     icon: 'phone',
     active: true,
   },
   {
     title: t('dl.ios.desc'),
     meta: t('dl.ios.meta'),
-    action: t('dl.btn'),
-    href: futureIosEndpoint,
+    action: t('dl.soon'),
+    href: null,
     icon: 'tablet',
-    active: true,
+    active: false,
   },
 ] as const;
 ---
@@ -47,7 +42,7 @@ const platforms = [
 
     <section class="platform-grid" aria-label={t('dl.title')}>
       {platforms.map((platform, index) => (
-        <article class={`platform-card panel panel--elevated platform-card--active reveal reveal-delay-${Math.min(index + 1, 3)}`}>
+        <article class={`platform-card panel panel--elevated ${platform.active ? 'platform-card--active' : 'platform-card--pending'} reveal reveal-delay-${Math.min(index + 1, 3)}`}>
           <div class="icon-box" aria-hidden="true">
             {platform.icon === 'monitor' && (
               <svg class="icon-standalone" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -73,7 +68,11 @@ const platforms = [
             <h2>{platform.title}</h2>
             <p>{platform.meta}</p>
           </div>
-          <a href={platform.href} class="button button--primary">{platform.action}</a>
+          {platform.active && platform.href ? (
+            <a href={platform.href} class="button button--primary">{platform.action}</a>
+          ) : (
+            <span class="button button--ghost" aria-disabled="true">{platform.action}</span>
+          )}
         </article>
       ))}
     </section>
@@ -142,6 +141,14 @@ const platforms = [
 
   .platform-card--active {
     position: relative;
+  }
+
+  .platform-card--pending {
+    box-shadow: var(--shadow-1);
+  }
+
+  .platform-card--pending .icon-box {
+    color: var(--color-text-tertiary);
   }
 
   .platform-card--active::before {

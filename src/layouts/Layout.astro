@@ -1,7 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations, localeCodes } from '../i18n/utils';
 import { defaultLang } from '../i18n/ui';
-import { windowsDownloadUrl } from '../config/endpoints';
+import { androidDownloadUrl, windowsDownloadUrl } from '../config/endpoints';
 
 interface Props {
   title?: string;
@@ -76,9 +76,9 @@ const jsonLd = [
     '@type': 'SoftwareApplication',
     name: siteName,
     applicationCategory: 'CommunicationApplication',
-    operatingSystem: 'Windows',
+    operatingSystem: ['Windows 10', 'Windows 11', 'Android'],
     url: siteUrl,
-    downloadUrl: windowsDownloadUrl,
+    downloadUrl: [windowsDownloadUrl, androidDownloadUrl],
     image: imageUrl,
     description,
     offers: {
